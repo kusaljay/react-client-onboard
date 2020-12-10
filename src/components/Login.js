@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import FormInput from './FormInput'
+import FormInput from './lib/FormInput'
+import { getToken } from '../api/api'
 
 const Login = () => {
   const [state, setState] = useState({
@@ -13,28 +14,14 @@ const Login = () => {
   }
 
   const handleSubmit = (e) => {
+    e.preventDefault()
+    
     const tokenEP = process.env.REACT_APP_TOKEN_EP
     const clientID = process.env.REACT_APP_CLIENT_ID
+    const username = state.username
+    const password = state.password
 
-    const getToken = async () => {
-      const response = await fetch(tokenEP, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        },
-        body: `grant_type=password&username=${state.username}&password=${state.password}&client_id=${clientID}`
-      })
-
-      if (response.status === 200) {
-        const data = await response.json()
-        // return data
-        console.log(data)
-      } else {
-        throw new Error(`${response.status} | Unable to fetch token`)
-      }
-    }
-    getToken()
-    e.preventDefault()
+    getToken(tokenEP, username, password, clientID)
   }
   
   return (

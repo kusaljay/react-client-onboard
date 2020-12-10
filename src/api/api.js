@@ -1,16 +1,10 @@
-const tokenEP = 'https://webapi.demo.bluechain.com/v1/OAuth2/token'
-// const authEP = process.env.REACT_APP_API_URI_AUTH
-const credUN = 'TestUserDemo'
-const credPW = '@Password_1234'
-const clientID = 'c.user.password'
-
-const getToken = async () => {
+const getToken = async (tokenEP, username, password, clientID) => {
   const response = await fetch(tokenEP, {
     method: 'POST',
     headers: {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
     },
-    body: `grant_type=password&username=${credUN}&password=${credPW}&client_id=${clientID}`
+    body: `grant_type=password&username=${username}&password=${password}&client_id=${clientID}`
   })
 
   if (response.status === 200) {
